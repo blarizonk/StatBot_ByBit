@@ -9,7 +9,7 @@ import time
 
 
 # CONFIG
-mode = "production"
+mode = "test"
 timeframe = 60
 kline_limit = 200
 z_score_window = 21

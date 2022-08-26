@@ -1,9 +1,9 @@
 {
-    "message": "Looking for new trades...",
+    "message": "Initial checks made...",
     "checks": [
         false,
         false,
-        false,
-        false
+        true,
+        true
     ]
 }

@@ -27,10 +27,9 @@ def manage_new_trades(kill_switch):
         is_coint = "Coint"
     else:
         is_coint = "NOT Coint"
-    print("\nStatistical Data:")
+    print("\n__________Statistical data:__________")
     print("\tcoint_flag           :", is_coint)
     print("\tZScore               :",zscore)
-    print("\tsignal_sign_positive :", signal_sign_positive,"\n\n")
     print('___________________________________________________________\n')
 
 
@@ -40,7 +39,7 @@ def manage_new_trades(kill_switch):
 
         # active hot trigger
         hot = True
-        print("\n\n\t\t\t-----TRADE STATUS HOT-----\n")
+        print("\t\t-----TRADE STATUS HOT-----")
         sleep(0.1)
         print("\tPlacing and Monitoring Existing Trades\n")
     else:

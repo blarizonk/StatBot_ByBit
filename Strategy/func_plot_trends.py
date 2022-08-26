@@ -38,11 +38,12 @@ def plot_trends(sym_1, sym_2, price_data):
     df_2.to_csv(f"3_backtest_file{sym_1}{sym_2}.csv")
     print("CSV should be exported")
 
-    #Plot charts
+    # Plot charts
     fig, axs = plt.subplots(3, figsize=(16, 8))
-    fig.suptitle(f"Price - {sym_1} vs {sym_2}")
+    fig.suptitle(f"Price and Spread - {sym_1} vs {sym_2}")
     axs[0].plot(series_1)
     axs[0].plot(series_2)
     axs[1].plot(spread)
     axs[2].plot(zscore)
     plt.show()
+
