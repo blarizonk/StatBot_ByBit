@@ -1,8 +1,10 @@
 from config_execution_api import stop_loss_fail_safe
-from func_get_roundings import rounding_ticker_1
-from func_get_roundings import rounding_ticker_2
-from func_get_roundings import quantity_rounding_ticker_1
-from func_get_roundings import quantity_rounding_ticker_2
+from func_get_roundings import get_qty_rounding
+from func_get_roundings import get_price_rounding
+# from func_get_roundings import rounding_ticker_1
+# from func_get_roundings import rounding_ticker_2
+# from func_get_roundings import quantity_rounding_ticker_1
+# from func_get_roundings import quantity_rounding_ticker_2
 
 import math
 
@@ -31,8 +33,8 @@ def get_single_trade_details(orderbook, direction="Long", capital=0):
     if orderbook:
 
         # Set price rounding
-        price_rounding_1 = rounding_ticker_1
-        quantity_rounding_1 = quantity_rounding_ticker_1
+        price_rounding_1 = get_price_rounding(orderbook[0]["symbol"])
+        quantity_rounding_1 = get_qty_rounding(orderbook[0]["symbol"])
 
         # Organise prices
         for level in orderbook:

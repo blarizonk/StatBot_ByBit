@@ -1,4 +1,6 @@
 from config_strategy_api import session_unauth
+from datetime import datetime,date,timedelta
+from time import sleep
 
 #function to get tradeable symbols
 
@@ -19,3 +21,22 @@ def get_tradeable_symbols():
 
     # Return output
     return sym_list
+
+# def get_daily_volume(symbol):
+#     yesterdate = (datetime.now() - timedelta(hours=24)).date()
+#     yesterday = yesterdate.time()
+#
+#     time = datetime.timestamp(yesterday)
+#     print(yesterday)
+#     print(yesterdate)
+#     print(time)
+#     daily_volume = session_unauth.query_kline(
+#         symbol=symbol,
+#         interval="D",
+#         limit=1,
+#         from_time=time
+#     )
+#     print(daily_volume)
+#     return daily_volume
+#
+# get_daily_volume("BTCUSDT")

@@ -52,10 +52,8 @@ if __name__ == "__main__":
         #check if open trades already exist
         is_p_ticker_open = open_position_confirmation(signal_positive_ticker)
         is_n_ticker_open = open_position_confirmation(signal_negative_ticker)
-
         is_p_ticker_active = active_position_confirmation(signal_positive_ticker)
         is_n_ticker_active = active_position_confirmation(signal_negative_ticker)
-
         checks_all = [is_n_ticker_active, is_p_ticker_active, is_n_ticker_open, is_p_ticker_open]
 
         print("\n__________Pre-Trade Checks:__________")
@@ -63,7 +61,7 @@ if __name__ == "__main__":
         print("\tis_p_ticker_active   :", is_p_ticker_active)
         print("\tis_n_ticker_open     :", is_n_ticker_open)
         print("\tis_p_ticker_open     :", is_p_ticker_open)
-        print(f"\tKill Switch: {kill_switch}")
+        print(f"\tKill Switch:            {kill_switch}")
 
 
         is_manage_new_trades = not any(checks_all)
@@ -80,6 +78,7 @@ if __name__ == "__main__":
             status_dict["message"] = "Looking for new trades..."
             save_status(status_dict)
             kill_switch, signal_side = manage_new_trades(kill_switch)
+            print("kill_switch:", kill_switch)
 
         #Managing open kill-switch position
         if kill_switch == 1:
@@ -90,12 +89,15 @@ if __name__ == "__main__":
             #Close positions
             if signal_side == "positive" and zscore < 0:
                 kill_switch = 2
+                print("kill_switch:", kill_switch)
             if signal_side == "negative" and zscore >= 0:
                 kill_switch = 2
+                print("kill_switch:", kill_switch)
 
             # killswitch must be put back to zero if all trades are closed, so new trades can reopen.
             if is_manage_new_trades and kill_switch != 2:
                 kill_switch = 0
+                print("kill_switch:", kill_switch)
 
         #Close all active orders and positions
         if kill_switch == 2:

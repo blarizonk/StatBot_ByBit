@@ -1,6 +1,4 @@
 from config_REST_api_connect import session_unauth
-from config_execution_api import ticker_1
-from config_execution_api import ticker_2
 
 #Get the price values to establish how much precisions there is
 def get_price_rounding(ticker):
@@ -56,7 +54,7 @@ def get_qty_rounding(ticker):
     else:
         return 0
 
-rounding_ticker_1 = get_price_rounding(ticker_1)
-rounding_ticker_2 = get_price_rounding(ticker_2)
-quantity_rounding_ticker_1 = get_qty_rounding(ticker_1)
-quantity_rounding_ticker_2 = get_qty_rounding(ticker_2)
+# rounding_ticker_1 = get_price_rounding(ticker_1)
+# rounding_ticker_2 = get_price_rounding(ticker_2)
+# quantity_rounding_ticker_1 = get_qty_rounding(ticker_1)
+# quantity_rounding_ticker_2 = get_qty_rounding(ticker_2)

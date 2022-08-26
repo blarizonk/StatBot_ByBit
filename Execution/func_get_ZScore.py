@@ -1,9 +1,7 @@
 from config_REST_api_connect import session_unauth
 from config_REST_api_connect import session_auth
 from config_REST_api_connect import get_orderbook_api
-
 from func_calculations import get_single_trade_details
-
 from func_price_calls import get_latest_klines
 from func_stats import calculate_metrics
 from config_execution_api import ticker_1
@@ -42,7 +40,7 @@ def get_latest_zscore():
             signal_sign_positive = False
 
 
-        return coint_flag, zscore, signal_sign_positive
+        return (coint_flag, zscore, signal_sign_positive)
 
     return
 

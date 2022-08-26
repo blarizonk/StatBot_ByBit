@@ -34,8 +34,8 @@ if __name__ == "__main__":
 
     #STEP 4 - Plot Trends and Save for Backtesting
     print("Step 4 - Plotting Trends")
-    symbol_1 = "XRPUSDT"
-    symbol_2 = "SFPUSDT"
+    symbol_1 = "UNIUSDT"
+    symbol_2 = "TLMUSDT"
     with open("1_price_list.json") as json_file:
         price_data = json.load(json_file)
         if len(price_data) > 0:

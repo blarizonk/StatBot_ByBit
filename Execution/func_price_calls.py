@@ -10,7 +10,8 @@ from time import sleep
 
 #Get Trade Liquidity to save placing huge limit orders on the orderbooks that can be seen and perhaps used to work against you.
 def get_trade_liquidity(ticker):
-    sleep(0.5)
+    #protecting API limit
+    sleep(0.25)
     trades = session_unauth.public_trading_records(
         symbol=ticker,
         limit=50
@@ -62,8 +63,7 @@ def get_price_klines(ticker):
     #return prices output
     if len(prices["result"]) != kline_limit:
         return []
-    else:
-        return prices["result"]
+    return prices["result"]
 
 #get latest klines
 def get_latest_klines():

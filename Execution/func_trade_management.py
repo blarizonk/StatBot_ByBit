@@ -31,19 +31,21 @@ def manage_new_trades(kill_switch):
     print("\tcoint_flag           :", is_coint)
     print("\tZScore               :",zscore)
     print("\tsignal_sign_positive :", signal_sign_positive,"\n\n")
-    print('___________________________________________________________')
+    print('___________________________________________________________\n')
 
 
     # Switch to hot is threshold is met:
     #print("Zscore:",zscore, "threshold:",signal_trigger_threshold
-    if abs(zscore) < signal_trigger_threshold:
-        print("Z-score to low")
-    else:
-        #active hot trigger
+    if abs(zscore) > signal_trigger_threshold:
+
+        # active hot trigger
         hot = True
-        print("\n\n\t\t\t-----TRADE STATUS HOT-----")
+        print("\n\n\t\t\t-----TRADE STATUS HOT-----\n")
         sleep(0.1)
-        print("\t\t\tPlacing and Monitoring Existing Trades")
+        print("\tPlacing and Monitoring Existing Trades\n")
+    else:
+        print("Z-score to low\n")
+
 
     # Place and manage trades
     if hot and kill_switch == 0:
@@ -100,6 +102,7 @@ def manage_new_trades(kill_switch):
                 order_long_id = initialise_order_execution(long_ticker, "Long", initial_capital_usdt)
                 counts_long = 1 if order_long_id else 0
                 remaining_capital_long = remaining_capital_long - initial_capital_usdt
+                print("_______________________")
                 print("Long ID:", order_long_id)
 
             # Place order - short
@@ -107,7 +110,7 @@ def manage_new_trades(kill_switch):
                 order_short_id = initialise_order_execution(short_ticker, "Short", initial_capital_usdt)
                 counts_short = 1 if order_short_id else 0
                 remaining_capital_short = remaining_capital_short - initial_capital_usdt
-                print("Short ID:", order_short_id)
+                print(f"Short ID:{order_short_id}\n")
 
             # Update signal side
             if zscore > 0:
@@ -124,6 +127,7 @@ def manage_new_trades(kill_switch):
 
             # Check limit orders and ensure z_score is still within range
             coint_flag, zscore_new, signal_sign_p_new = get_latest_zscore()
+
             if kill_switch == 0:
                 if abs(zscore_new) > signal_trigger_threshold * 0.9 and signal_sign_p_new == signal_sign_positive:
 
@@ -134,10 +138,10 @@ def manage_new_trades(kill_switch):
                     # Check short order status
                     if counts_short == 1:
                         order_status_short = check_order(short_ticker, order_short_id, remaining_capital_short, "Short")
-
+                    print("\n_______________________")
                     print(f"Order Status long: {order_status_long}")
-                    print(f"order_status_short: {order_status_short}")
-                    print(f"zscore_new: {zscore_new}")
+                    print(f"Order Status Short: {order_status_short}")
+                    print(f"zscore_new: {zscore_new}\n")
 
 
                     # If orders still active, do nothing

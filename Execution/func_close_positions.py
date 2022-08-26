@@ -3,13 +3,14 @@ from config_execution_api import signal_negative_ticker
 from config_REST_api_connect import get_position_data
 from config_REST_api_connect import session_auth
 
-
 #Get position information
 def get_position_info(ticker):
 
-    side = ""
-    size = 0
+    # Declare output variables
+    side = 0
+    size = ""
 
+    # Extract position info
     position = get_position_data(ticker)
     if "ret_msg" in position.keys():
         if position["ret_msg"] == "OK":
@@ -21,8 +22,11 @@ def get_position_info(ticker):
                     size = position["result"][1]["size"]
                     side = "Sell"
 
+    #Return output
     return side, size
 
+
+#  Place market close order
 def place_market_close_order(ticker, side, size):
 
     #place market close orders              << There might need to be some fail safe or notification that this was successful or not successful.
@@ -35,10 +39,16 @@ def place_market_close_order(ticker, side, size):
         reduce_only=True,
         close_on_trigger=False
     )
+
+    #Return
+    print(f"{ticker}:{size} closing Market-order placed")
     return
+
 
 #close all positions for both tickers
 def close_all_positions(kill_switch):
+
+    print(signal_positive_ticker, signal_negative_ticker)
 
     #cancel all active orders:
     session_auth.cancel_all_active_orders(symbol=signal_positive_ticker)

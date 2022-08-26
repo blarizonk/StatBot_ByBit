@@ -20,7 +20,7 @@ def set_leverage(ticker):
     # Return
     return
 
-def place_order(ticker, price, quantity, direction, stoploss):
+def place_order(ticker, price, quantity, direction, stop_loss):
 
     #Set Variables
     if direction == "Long":
@@ -39,7 +39,7 @@ def place_order(ticker, price, quantity, direction, stoploss):
             time_in_force="PostOnly",
             reduce_only=False,
             close_on_trigger=False,
-            stop_loss=stoploss
+            stop_loss=stop_loss
         )
     else:
         order = session_auth.place_active_order(
@@ -50,7 +50,7 @@ def place_order(ticker, price, quantity, direction, stoploss):
             time_in_force="GoodTillCancel",
             reduce_only=False,
             close_on_trigger=False,
-            stop_loss=stoploss,
+            stop_loss=stop_loss,
         )
     return order
 
