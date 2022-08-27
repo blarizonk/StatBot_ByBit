@@ -64,6 +64,6 @@ def close_all_positions(kill_switch):
     if size_2 > 0:
         place_market_close_order(signal_negative_ticker, side_1, size_2)
 
-    #output results:
+    #output results: once all positions have been closed, killswitch becomes 0 and new trades are looked for.
     kill_switch = 0
     return kill_switch

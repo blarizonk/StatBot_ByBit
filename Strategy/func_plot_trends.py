@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
+
 #Plot prices and Trends
 def plot_trends(sym_1, sym_2, price_data):
 
@@ -34,6 +35,7 @@ def plot_trends(sym_1, sym_2, price_data):
     df_2["Spread"] = spread
     df_2["Zscore"] = zscore
     df_2["HedgeRatio"] = hedge_ratio
+    df_2['Blari_Hedge_Ratio'] = bla
 
     df_2.to_csv(f"3_backtest_file{sym_1}{sym_2}.csv")
     print("CSV should be exported")

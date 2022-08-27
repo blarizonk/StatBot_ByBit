@@ -16,7 +16,7 @@ def set_leverage(ticker):
         )
     except Exception as e:
         pass
-    print(f"\t{ticker} is isolated and set to 1x Leverage.")
+    print(f"{ticker} is isolated and set to 1x Leverage.")
     # Return
     return
 

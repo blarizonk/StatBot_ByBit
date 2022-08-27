@@ -4,20 +4,17 @@ from config_REST_api_connect import session_auth
 from config_REST_api_connect import session_unauth
 from config_execution_api import signal_positive_ticker
 from config_execution_api import signal_negative_ticker
+import json
+from func_cointegration import extract_close_prices
 
-# orderbook = session_unauth.orderbook(symbol="ADAUSDT")['result']
-# print(orderbook[0]["symbol"])
-#
-# price_rounding = get_price_rounding(orderbook[0]["symbol"])
-# quantity_rounding = get_qty_rounding(orderbook[0]["symbol"])
-#
-# print(price_rounding)
-# print(quantity_rounding)
-#
-# api = session_unauth.orderbook(
-#         symbol="ICPUSDT",
-#         limit=100
-#     )
-# print(api)
+with open("1_price_list.json") as json_file:
+    price_data = json.load(json_file)
 
-session_auth.cancel_all_active_orders(symbol="BTCUSDT")
+prices_1 = extract_close_prices(price_data[sym_1])
+prices_2 = extract_close_prices(price_data[sym_2])
+
+def hedge_ratio(series_1, series_2):
+    print(series_1)
+    print(series_2)
+
+hedge_ratio(prices_1, prices_2)

@@ -48,6 +48,7 @@ def extract_close_prices(prices):
     return close_prices
 
 
+
 # Calculate cointegrated pairs
 def get_cointegrated_pairs(prices): # << returns df_coint
 
@@ -72,6 +73,7 @@ def get_cointegrated_pairs(prices): # << returns df_coint
 
                 #Check for cointegration and add cointegrated pair
                 coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(series_1, series_2)
+
                 if coint_flag == 1:
                     included_list.append(unique)
                     coint_pair_list.append({

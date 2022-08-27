@@ -20,17 +20,15 @@ def manage_new_trades(kill_switch):
     signal_side = ""
     hot = False
 
-    #get and save the latest zscore
+    #Console Print of updated information:
     coint_flag, zscore, signal_sign_positive = get_latest_zscore()
-
     if coint_flag == 1:
         is_coint = "Coint"
     else:
         is_coint = "NOT Coint"
-    print("\n__________Statistical data:__________")
-    print("\tcoint_flag           :", is_coint)
-    print("\tZScore               :",zscore)
-    print('___________________________________________________________\n')
+    print("\n\t\t3.___Statistical data:___")
+    print(f"\t\tCoint_flag    :{coint_flag}\n\tZScore        :{zscore}\n___________________________________________________________\n")
+
 
 
     # Switch to hot is threshold is met:
@@ -39,11 +37,11 @@ def manage_new_trades(kill_switch):
 
         # active hot trigger
         hot = True
-        print("\t\t-----TRADE STATUS HOT-----")
+        print("\t\t\t4.---TRADE STATUS HOT---")
         sleep(0.1)
-        print("\tPlacing and Monitoring Existing Trades\n")
+        print("\t\t\tPlacing and Monitoring Existing Trades\n")
     else:
-        print("Z-score to low\n")
+        print("Z-score to low, no trade made.\n")
 
 
     # Place and manage trades
@@ -94,22 +92,22 @@ def manage_new_trades(kill_switch):
         order_status_short = ""
         counts_long = 0
         counts_short = 0
-        while kill_switch == 0:
+        while kill_switch == 0:   #<<< While Killswitch == 0, bot should run. While killswitch == 1, trades are placed, we must monitor for sell signal. if kill_switch == 2, we must close all potiions
 
             # Place order - long
             if counts_long == 0:
                 order_long_id = initialise_order_execution(long_ticker, "Long", initial_capital_usdt)
                 counts_long = 1 if order_long_id else 0
                 remaining_capital_long = remaining_capital_long - initial_capital_usdt
-                print("_______________________")
-                print("Long ID:", order_long_id)
+                print(f"\t\t\t_______________________")
+                print(f"\t\t\tLong asset: {long_ticker}, Order ID:{order_long_id}")
 
             # Place order - short
             if counts_short == 0:
                 order_short_id = initialise_order_execution(short_ticker, "Short", initial_capital_usdt)
                 counts_short = 1 if order_short_id else 0
                 remaining_capital_short = remaining_capital_short - initial_capital_usdt
-                print(f"Short ID:{order_short_id}\n")
+                print(f"\t\t\tShort asset: {short_ticker}, Order ID:{order_short_id}")
 
             # Update signal side
             if zscore > 0:
@@ -138,9 +136,9 @@ def manage_new_trades(kill_switch):
                     if counts_short == 1:
                         order_status_short = check_order(short_ticker, order_short_id, remaining_capital_short, "Short")
                     print("\n_______________________")
-                    print(f"Order Status long: {order_status_long}")
-                    print(f"Order Status Short: {order_status_short}")
-                    print(f"zscore_new: {zscore_new}\n")
+                    print(f"\t\t\tOrder Status long: {order_status_long}")
+                    print(f"\t\t\tOrder Status Short: {order_status_short}")
+                    print(f"\t\t\tzscore_new: {zscore_new}\n")
 
 
                     # If orders still active, do nothing
@@ -175,5 +173,5 @@ def manage_new_trades(kill_switch):
                     kill_switch = 1
 
     # Output status
-    print(f"Kill-switch: {kill_switch}")
+    print(f"manage_new_trades func kill_switch: {kill_switch}")
     return kill_switch, signal_side

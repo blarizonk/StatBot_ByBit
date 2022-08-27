@@ -8,8 +8,8 @@
 # Config Variables:
 
 mode = "test"
-ticker_1 = "AKROUSDT"
-ticker_2 = "SANDUSDT"
+ticker_1 = ""
+ticker_2 = ""
 signal_positive_ticker = ticker_2
 signal_negative_ticker = ticker_1
 """
@@ -24,9 +24,9 @@ quantity_rounding_ticker_2 = get_qty_rounding(ticker_2)
 
 limit_order_basis = False # Will ensure positions except for close) will be placed on limit basis
 
-tradeable_capital_USDT = 500 #this is $1000 for each pair (long and short)
-stop_loss_fail_safe = 0.15 #(this will be 20%)
-signal_trigger_threshold = 0.1 # Current signal is ZSCORE
+tradeable_capital_USDT = 100 #this is $1000 for each pair (long and short)
+stop_loss_fail_safe = 0.20 #(this will be 20%)
+signal_trigger_threshold = 1.5 # Current signal is ZSCORE
 
 timeframe = 60 # thisis hourly, can also be used in other. make sure this matches strategy
 kline_limit = 200
