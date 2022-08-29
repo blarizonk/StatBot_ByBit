@@ -8,8 +8,8 @@
 # Config Variables:
 
 mode = "test"
-ticker_1 = ""
-ticker_2 = ""
+ticker_1 = "DARUSDT"
+ticker_2 = "RVNUSDT"
 signal_positive_ticker = ticker_2
 signal_negative_ticker = ticker_1
 """
@@ -27,8 +27,9 @@ limit_order_basis = False # Will ensure positions except for close) will be plac
 tradeable_capital_USDT = 100 #this is $1000 for each pair (long and short)
 stop_loss_fail_safe = 0.20 #(this will be 20%)
 signal_trigger_threshold = 1.5 # Current signal is ZSCORE
+sell_zscore = 1
 
-timeframe = 60 # thisis hourly, can also be used in other. make sure this matches strategy
+timeframe = 1 # thisis hourly, can also be used in other. make sure this matches strategy
 kline_limit = 200
 z_score_window = 21 #this must match stragety
 

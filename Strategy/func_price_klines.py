@@ -12,6 +12,8 @@ import time
 
 #Get Start time << the below is listing a set of option for if we choose to do either 60 mins (hourly) or Daily. we could also add if statements to accomodate all the other different time periods.
 time_start_date = 0
+if timeframe == 1:
+    time_start_date = datetime.datetime.now() - datetime.timedelta(minutes=kline_limit)
 if timeframe == 60:
     time_start_date = datetime.datetime.now() - datetime.timedelta(hours=kline_limit)
 if timeframe == "D":

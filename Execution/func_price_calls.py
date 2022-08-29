@@ -35,6 +35,9 @@ def get_timestamps():
     time_start_date = 0
     time_next_date = 0
     now = datetime.datetime.now()
+    if timeframe == 1:
+        time_start_date = now - datetime.timedelta(minutes=kline_limit)
+        time_next_date = now + datetime.timedelta(seconds=30)
     if timeframe == 60:
         time_start_date = now - datetime.timedelta(hours=kline_limit)
         time_next_date = now + datetime.timedelta(seconds=30)

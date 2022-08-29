@@ -15,6 +15,7 @@ from func_execution_calls import set_leverage
 from func_close_positions import close_all_positions
 from func_save_status import save_status
 from func_get_ZScore import get_latest_zscore
+from config_execution_api import sell_zscore
 import time
 import json
 
@@ -100,11 +101,11 @@ if __name__ == "__main__":
             coint_flag, zscore, signal_sign_positive = get_latest_zscore()
             print(f"\tCurrent zscore:            {zscore}")
 
-            #Close positions
-            if signal_side == "positive" and zscore < 0:
+            #Close positions - signal side shows if the zscore started at positive or negative.
+            if signal_side == "positive" and zscore < (sell_zscore):
                 kill_switch = 2
 
-            if signal_side == "negative" and zscore >= 0:
+            if signal_side == "negative" and zscore >= -(sell_zscore):
                 kill_switch = 2
 
             # killswitch must be put back to zero if all trades are closed, so new trades can reopen.
