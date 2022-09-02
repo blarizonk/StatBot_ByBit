@@ -27,9 +27,7 @@ def manage_new_trades(kill_switch):
     else:
         is_coint = "NOT Coint"
     print("\n\t\t3.___Statistical data:___")
-    print(f"\t\tCoint_flag    :{coint_flag}\n\tZScore        :{zscore}\n___________________________________________________________\n")
-
-
+    print(f"\t\tCoint_flag    :{is_coint}\n\t\tZScore        :{zscore}\n___________________________________________________________\n")
 
     # Switch to hot is threshold is met:
     #print("Zscore:",zscore, "threshold:",signal_trigger_threshold
@@ -41,10 +39,10 @@ def manage_new_trades(kill_switch):
         sleep(0.1)
         print("\t\t\tPlacing and Monitoring Existing Trades\n")
     else:
-        print("Z-score to low, no trade made.\n")
+        print("\t\t\tZ-score to low, no trade made.\n")
 
 
-    # Place and manage trades
+    # if hot, orders are placed.Place and manage trades
     if hot and kill_switch == 0:
 
         # Get trades history for liquidity
@@ -111,7 +109,7 @@ def manage_new_trades(kill_switch):
 
             # Update signal side
             if zscore > 0:
-                signal_side = "postive"
+                signal_side = "positive"
             else:
                 signal_side = "negative"
 
@@ -173,5 +171,5 @@ def manage_new_trades(kill_switch):
                     kill_switch = 1
 
     # Output status
-    print(f"manage_new_trades func kill_switch: {kill_switch}")
+    print(f"\t\t\tmanage_new_trades func kill_switch: {kill_switch}")
     return kill_switch, signal_side

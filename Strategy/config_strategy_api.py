@@ -10,7 +10,7 @@ import time
 
 # CONFIG
 mode = "test"
-timeframe = 1
+timeframe = 60
 kline_limit = 200
 z_score_window = 21
 

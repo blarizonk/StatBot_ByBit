@@ -44,32 +44,36 @@ if __name__ == "__main__":
     print("\n\t2.---Seeking Trades:---")
     loop_count = 0
     while True:
-        loop_count +=1
-
+        loop_count += 1
         #add time limit to protect API calling
         time.sleep(1)
-
         #check if open trades already exist
         is_p_ticker_open = open_position_confirmation(signal_positive_ticker)
         is_n_ticker_open = open_position_confirmation(signal_negative_ticker)
         is_p_ticker_active = active_position_confirmation(signal_positive_ticker)
         is_n_ticker_active = active_position_confirmation(signal_negative_ticker)
         checks_all = [is_n_ticker_active, is_p_ticker_active, is_n_ticker_open, is_p_ticker_open]
-
+        is_manage_new_trades = not any(checks_all) #<< this checks for if there are any trades or orders open. if there are, it assumes that a trade is active.
         print("\n\t__________Pre-Trade Checks:__________")
         print("\tis_n_ticker_active   :", is_n_ticker_active)
         print("\tis_p_ticker_active   :", is_p_ticker_active)
         print("\tis_n_ticker_open     :", is_n_ticker_open)
         print("\tis_p_ticker_open     :", is_p_ticker_open)
-        print("\n\tKill Switch          :", kill_switch)
+
+        if loop_count != 0:
+            try:
+                print("\n\tKill Switch          :", kill_switch)
+            except:
+                print("loop count == 0")
         try:
             coint_flag, zscore, signal_sign_positive = get_latest_zscore()
             print("\tZScore               :", zscore)
+            print("\tSignal_sign_positive?:", signal_sign_positive)
+
         except:
-            print("coint_flag, zscore, signal_sign_positive = get_latest_zscore(): Error Occured")
+            print("coint_flag, zscore, signal_sign_positive = get_latest_zscore(): Error Occurred")
 
 
-        is_manage_new_trades = not any(checks_all) #<< this checks for if there are any trades or orders open. if there are, it assumes that a trade is active.
 
         #save status
         status_dict["message"] = "Initial checks made..."
@@ -79,43 +83,68 @@ if __name__ == "__main__":
 
 
         #Check for signal and place new trades
-        if is_manage_new_trades == True and kill_switch == 0:
+        if is_manage_new_trades and kill_switch == 0:
+
             status_dict["message"] = "Looking for new trades..."
             save_status(status_dict)
             kill_switch, signal_side = manage_new_trades(kill_switch) # << This is where the killswitch is determined for the remainder of the script
-            print(f"Following Manage_new_trades func, kill_switch is now: {kill_switch}")
-            if kill_switch == 0:
-                print(f"killswitch: {kill_switch}.There should be no active trades.")
-            elif kill_switch == 1:
-                print(
-                    f"killswitch: {kill_switch}.There should be some active trades.")
-            elif kill_switch == 2:
-                print(
-                    f"killswitch: {kill_switch}. All trades should be closing or closed.")
+            print(f"\n\tFollowing Manage_new_trades func, kill_switch is now: {kill_switch}")
+
 
 
         #Managing open kill-switch position
         if kill_switch == 1:
+            print("\tline 93: is_manage_new_trades :", is_manage_new_trades)
 
             # get and save the latest zscore
             coint_flag, zscore, signal_sign_positive = get_latest_zscore()
+            if zscore < 0:
+                sell_zscore = -sell_zscore
             print(f"\tCurrent zscore:            {zscore}")
+            print(f"\tCurrent zscore-sell:       {sell_zscore}")
+
 
             #Close positions - signal side shows if the zscore started at positive or negative.
-            if signal_side == "positive" and zscore < (sell_zscore):
+            if signal_side == "positive" and zscore < sell_zscore:
                 kill_switch = 2
+                print(f"\nsignal side positive: Sell_trigger reached.{zscore} < {sell_zscore}")
+            elif signal_side == "positive":
+                print(f"\nsignal side positive: Sell trigger not reached: {zscore} < {sell_zscore} ")
 
-            if signal_side == "negative" and zscore >= -(sell_zscore):
+            elif signal_side == "negative" and zscore >= (sell_zscore*(-1)):
                 kill_switch = 2
+                print(f"\nsignal side negative: Sell_trigger reached.{zscore} >= {sell_zscore}")
+            elif signal_side == "negative":
+                print(f"\nsignal side negative:Sell trigger not reached: {zscore} >= {sell_zscore} ")
+            else:
+                print("Error occurred in main_execution before line 115")
 
             # killswitch must be put back to zero if all trades are closed, so new trades can reopen.
+            #recalculate is_manage_new_trades
+            is_p_ticker_open = open_position_confirmation(signal_positive_ticker)
+            is_n_ticker_open = open_position_confirmation(signal_negative_ticker)
+            is_p_ticker_active = active_position_confirmation(signal_positive_ticker)
+            is_n_ticker_active = active_position_confirmation(signal_negative_ticker)
+            checks_all = [is_n_ticker_active, is_p_ticker_active, is_n_ticker_open, is_p_ticker_open]
+            is_manage_new_trades = not any(checks_all)
             if is_manage_new_trades and kill_switch != 2:
+                print("\t\tLine 122")
+                print("\tis_n_ticker_active   :", is_n_ticker_active)
+                print("\tis_p_ticker_active   :", is_p_ticker_active)
+                print("\tis_n_ticker_open     :", is_n_ticker_open)
+                print("\tis_p_ticker_open     :", is_p_ticker_open)
+                print("\tis_manage_new_trades :", is_manage_new_trades)
+
+
+                print(f"is_manage_new_trades: {is_manage_new_trades}")
+                print(f"killswitch: {kill_switch}")
+                print("line 131 Reached")
                 kill_switch = 0
 
         #Killswitch = 2 means we need to close all active orders and positions
         if kill_switch == 2:
             print("Closing all positions.")
-            status_dict["message"] = "Closing all positions..."
+            status_dict["message"] = "Closing all po0sitions..."
             save_status(status_dict)
             kill_switch = close_all_positions(kill_switch)
 
