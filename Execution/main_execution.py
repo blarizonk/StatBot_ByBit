@@ -97,7 +97,17 @@ if __name__ == "__main__":
             print("\tline 93: is_manage_new_trades :", is_manage_new_trades)
 
             # get and save the latest zscore
-            coint_flag, zscore, signal_sign_positive = get_latest_zscore()
+            error = True
+            while error == True:
+                try:
+                    coint_flag, zscore, signal_sign_positive = get_latest_zscore()
+                    print("\tZScore               :", zscore)
+                    print("\tSignal_sign_positive?:", signal_sign_positive)
+                    break
+                except:
+                    print("coint_flag, zscore, signal_sign_positive = get_latest_zscore(): Error Occurred")
+                    error = True
+
             if zscore < 0:
                 sell_zscore = -sell_zscore
             print(f"\tCurrent zscore:            {zscore}")
@@ -151,9 +161,4 @@ if __name__ == "__main__":
         #sleep for a period of time before cycling through again.
         print(f"Loop count: {loop_count}")
         time.sleep(2)
-
-
-
-
-
 

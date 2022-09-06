@@ -12,7 +12,7 @@ import time
 mode = "test"
 timeframe = 60
 kline_limit = 200
-z_score_window = 21
+z_score_window = 30
 
 #LIVE API DATA
 api_key_mainnet = ""
